@@ -1,0 +1,18 @@
+{{/* Retrieve the resource needed */}}
+{{ $src:= .Page.Resources.GetMatch (.Get "src") }}
+
+{{/* Set some useful variables */}}
+{{ $name:= strings.TrimSuffix (path.Ext $src.Name) $src.Name }}
+
+{{/* Create the figure */}}
+<figure class="single-image">
+    {{/* <a href="#image-{{ $name }}-lightbox" id="image-{{ $name }}-anchor"> */}}
+        <img src="{{ $src.Name }}" >
+    {{/* </a> */}}
+    {{ if or (.Get "loc") (.Get "date") (.Get "cam") (.Get "set") }}
+    <figcaption class="photo_description">
+        <p class="photo_location">{{ with .Get "loc" }}{{ . }}{{" - "}}{{ end }}{{ with .Get "date" }}{{ . }}{{ end }}</p>
+        <p class="photo_settings">{{ with .Get "cam" }}{{ . }}{{" - "}}{{ end }}{{ with .Get "set" }}{{ . }}{{ end }}</p>
+    </figcaption>
+    {{ end }}
+</figure>
