@@ -11,8 +11,16 @@
     {{/* </a> */}}
     {{ if or (.Get "loc") (.Get "date") (.Get "cam") (.Get "set") }}
     <figcaption class="photo_description">
-        <p class="photo_location">{{ with .Get "loc" }}{{ . }}{{" - "}}{{ end }}{{ with .Get "date" }}{{ . }}{{ end }}</p>
-        <p class="photo_settings">{{ with .Get "cam" }}{{ . }}{{" - "}}{{ end }}{{ with .Get "set" }}{{ . }}{{ end }}</p>
+        <p class="photo_location">
+          {{ with .Get "loc" }}{{ . }}{{ end }}
+          {{ if and (.Get "loc") (.Get "date") }}{{" - "}}{{ end }}
+          {{ with .Get "date" }}{{ . }}{{ end }}
+        </p>
+        <p class="photo_settings">
+          {{ with .Get "cam" }}{{ . }}{{ end }}
+          {{ if and (.Get "cam") (.Get "set") }}{{" - "}}{{ end }}
+          {{ with .Get "set" }}{{ . }}{{ end }}
+        </p>
     </figcaption>
     {{ end }}
 </figure>
