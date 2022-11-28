@@ -9,8 +9,14 @@
     {{/* <a href="#image-{{ $name }}-lightbox" id="image-{{ $name }}-anchor"> */}}
         <img src="{{ $src.Name }}" >
     {{/* </a> */}}
-    {{ if or (.Get "loc") (.Get "date") (.Get "cam") (.Get "set") }}
+    {{ if or (.Get "desc") (.Get "loc") (.Get "date") (.Get "cam") (.Get "set") }}
     <figcaption class="photo_description">
+      <div class="figca" >
+        <p class="photo_description">
+          {{ with .Get "desc" }}{{ . }}{{ end }}
+        </p>
+      </div>
+      <div class="figca" >
         <p class="photo_location">
           {{ with .Get "loc" }}{{ . }}{{ end }}
           {{ if and (.Get "loc") (.Get "date") }}{{" - "}}{{ end }}
@@ -21,6 +27,7 @@
           {{ if and (.Get "cam") (.Get "set") }}{{" - "}}{{ end }}
           {{ with .Get "set" }}{{ . }}{{ end }}
         </p>
+        </div>
     </figcaption>
     {{ end }}
 </figure>
