@@ -1,33 +1,61 @@
+{{/* Original code by Laura Kalbag */}}
+{{/* https://laurakalbag.com/processing-responsive-images-with-hugo/ */}}
+
+
 {{/* Retrieve the resource needed */}}
 {{ $src:= .Page.Resources.GetMatch (.Get "src") }}
 
-{{/* Set some useful variables */}}
-{{ $name:= strings.TrimSuffix (path.Ext $src.Name) $src.Name }}
+{{ $resizeOptions := "" }}
+{{ with .Get "rotate" }}
+    {{ $resizeOptions = printf " webp r%s" . }}
+{{ else }}
+    {{ $resizeOptions = " webp" }}
+{{ end }}
+
+{{/* Set image sizes */}}
+{{ $XSw := printf "480x %s" $resizeOptions }}
+{{ $Sw := printf "720x %s" $resizeOptions }}
+{{ $Mw := printf "1080x %s" $resizeOptions }}
+{{ $Lw := printf "1280x %s" $resizeOptions }}
+{{ $XLw := printf "1600x %s" $resizeOptions }}
+{{ $XXLw := printf "2048x %s" $resizeOptions }}
+
+{{/* Resize the src image to the given sizes */}}
+{{ .Scratch.Set "XS" ($src.Resize $XSw) }}
+{{ .Scratch.Set "S" ($src.Resize $Sw) }}
+{{ .Scratch.Set "M" ($src.Resize $Mw) }}
+{{ .Scratch.Set "L" ($src.Resize $Lw) }}
+{{ .Scratch.Set "XL" ($src.Resize $XLw) }}
+{{ .Scratch.Set "XXL" ($src.Resize $XXLw) }}
+
+{{/* Add the processed images to the scratch */}}
+{{ $xs := .Scratch.Get "XS" }}
+{{ $s := .Scratch.Get "S" }}
+{{ $m := .Scratch.Get "M" }}
+{{ $l := .Scratch.Get "L" }}
+{{ $xl := .Scratch.Get "XL" }}
+{{ $xxl := .Scratch.Get "XXL" }}
+
 
 {{/* Create the figure */}}
-<figure class="single-image">
-    {{/* <a href="#image-{{ $name }}-lightbox" id="image-{{ $name }}-anchor"> */}}
-        <img src="{{ $src.Name }}" >
-    {{/* </a> */}}
-    {{ if or (.Get "desc") (.Get "loc") (.Get "date") (.Get "cam") (.Get "set") }}
-    <figcaption class="photo_description">
-      <div class="figca" >
-        <p class="photo_description">
-          {{ with .Get "desc" }}{{ . }}{{ end }}
-        </p>
-      </div>
-      <div class="figca" >
-        <p class="photo_location">
-          {{ with .Get "loc" }}{{ . }}{{ end }}
-          {{ if and (.Get "loc") (.Get "date") }}{{" - "}}{{ end }}
-          {{ with .Get "date" }}{{ . }}{{ end }}
-        </p>
-        <p class="photo_settings">
-          {{ with .Get "cam" }}{{ . }}{{ end }}
-          {{ if and (.Get "cam") (.Get "set") }}{{" - "}}{{ end }}
-          {{ with .Get "set" }}{{ . }}{{ end }}
-        </p>
-        </div>
-    </figcaption>
-    {{ end }}
+<figure class="responsive-figure">
+    <picture>
+        {{ with $xs.RelPermalink }}<source media="(max-width: 500px)" srcset="{{ . }}" >{{ end }}
+        {{ with $s.RelPermalink }}<source media="(max-width: 800px)" srcset="{{ . }}" >{{ end }}
+        {{ with $m.RelPermalink }}<source media="(max-width: 1100px)" srcset="{{ . }}" >{{ end }}
+        {{ with $l.RelPermalink }}<source media="(max-width: 1350px)" srcset="{{ . }}" >{{ end }}
+        {{ with $xl.RelPermalink }}<source media="(max-width: 1720px)" srcset="{{ . }}" >{{ end }}
+        {{ with $xxl.RelPermalink }}<source media="(min-width: 1721px)" srcset="{{ . }}" >{{ end }}
+        <img
+            {{ with .Get "alt" }}alt="{{ . }}"{{ else }}alt=""{{ end }}
+            width="{{ $src.Width }}" height="{{ $src.Height }}"
+        >
+        {{ if .Get "caption" }}
+        <figcaption>
+            <span>
+              {{ with .Get "caption" }}{{ . }}{{ end }}
+            </span>
+        </figcaption>
+        {{ end }}
+    </picture>
 </figure>
