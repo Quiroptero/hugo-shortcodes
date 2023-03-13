@@ -39,23 +39,25 @@
 
 {{/* Create the figure */}}
 <figure class="responsive-figure">
-    <picture>
-        {{ with $xs.RelPermalink }}<source media="(max-width: 500px)" srcset="{{ . }}" >{{ end }}
-        {{ with $s.RelPermalink }}<source media="(max-width: 800px)" srcset="{{ . }}" >{{ end }}
-        {{ with $m.RelPermalink }}<source media="(max-width: 1100px)" srcset="{{ . }}" >{{ end }}
-        {{ with $l.RelPermalink }}<source media="(max-width: 1350px)" srcset="{{ . }}" >{{ end }}
-        {{ with $xl.RelPermalink }}<source media="(max-width: 1720px)" srcset="{{ . }}" >{{ end }}
-        {{ with $xxl.RelPermalink }}<source media="(min-width: 1721px)" srcset="{{ . }}" >{{ end }}
-        <img
-            {{ with .Get "alt" }}alt="{{ . }}"{{ else }}alt=""{{ end }}
-            width="{{ $src.Width }}" height="{{ $src.Height }}"
-        >
-        {{ if .Get "caption" }}
-        <figcaption>
-            <span>
-              {{ with .Get "caption" }}{{ . }}{{ end }}
-            </span>
-        </figcaption>
-        {{ end }}
-    </picture>
+    <a href="{{ $xl.RelPermalink }}">
+        <picture>
+            <!-- {{ with $xs.RelPermalink }}<source media="(max-width: 500px)" srcset="{{ . }}" >{{ end }} -->
+            {{ with $m.RelPermalink }}<source media="(max-width: 800px)" srcset="{{ . }}" >{{ end }}
+            <!-- {{ with $m.RelPermalink }}<source media="(max-width: 1100px)" srcset="{{ . }}" >{{ end }} -->
+            <!-- {{ with $l.RelPermalink }}<source media="(max-width: 1350px)" srcset="{{ . }}" >{{ end }} -->
+            {{ with $xl.RelPermalink }}<source media="(max-width: 1720px)" srcset="{{ . }}" >{{ end }}
+            {{ with $xxl.RelPermalink }}<source media="(min-width: 1721px)" srcset="{{ . }}" >{{ end }}
+            <img
+                {{ with .Get "alt" }}alt="{{ . }}"{{ else }}alt=""{{ end }}
+                width="{{ $src.Width }}" height="{{ $src.Height }}"
+            >
+            {{ if .Get "caption" }}
+            <figcaption>
+                <span>
+                  {{ with .Get "caption" }}{{ . }}{{ end }}
+                </span>
+            </figcaption>
+            {{ end }}
+        </picture>
+    </a>
 </figure>
