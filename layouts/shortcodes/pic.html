@@ -13,26 +13,26 @@
 {{ end }}
 
 {{/* Set image sizes */}}
-{{ $XSw := printf "480x %s" $resizeOptions }}
-{{ $Sw := printf "720x %s" $resizeOptions }}
+{{/* $XSw := printf "480x %s" $resizeOptions */}}
+{{/* $Sw := printf "720x %s" $resizeOptions */}}
 {{ $Mw := printf "1080x %s" $resizeOptions }}
-{{ $Lw := printf "1280x %s" $resizeOptions }}
+{{/* $Lw := printf "1280x %s" $resizeOptions */}}
 {{ $XLw := printf "1600x %s" $resizeOptions }}
 {{ $XXLw := printf "2048x %s" $resizeOptions }}
 
 {{/* Resize the src image to the given sizes */}}
-{{ .Scratch.Set "XS" ($src.Resize $XSw) }}
-{{ .Scratch.Set "S" ($src.Resize $Sw) }}
+{{/* .Scratch.Set "XS" ($src.Resize $XSw) */}}
+{{/* .Scratch.Set "S" ($src.Resize $Sw) */}}
 {{ .Scratch.Set "M" ($src.Resize $Mw) }}
-{{ .Scratch.Set "L" ($src.Resize $Lw) }}
+{{/* .Scratch.Set "L" ($src.Resize $Lw) */}}
 {{ .Scratch.Set "XL" ($src.Resize $XLw) }}
 {{ .Scratch.Set "XXL" ($src.Resize $XXLw) }}
 
 {{/* Add the processed images to the scratch */}}
-{{ $xs := .Scratch.Get "XS" }}
-{{ $s := .Scratch.Get "S" }}
+{{/* $xs := .Scratch.Get "XS" */}}
+{{/* $s := .Scratch.Get "S" */}}
 {{ $m := .Scratch.Get "M" }}
-{{ $l := .Scratch.Get "L" }}
+{{/* $l := .Scratch.Get "L" */}}
 {{ $xl := .Scratch.Get "XL" }}
 {{ $xxl := .Scratch.Get "XXL" }}
 
