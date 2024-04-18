@@ -1,3 +1,3 @@
 module github.com/Quiroptero/hugo-shortcodes
 
-go 1.22
+go 1.22.2
